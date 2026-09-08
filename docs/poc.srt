@@ -1,11 +1,15 @@
 1
-00:00:00,000 --> 00:00:30,000
-Type the address. No shortcut.
+00:00:00,000 --> 00:00:12,000
+Open a terminal. Start the Python server.
 
 2
-00:00:30,000 --> 00:00:38,000
-The page is up. One second later, the visit starts a terminal.
+00:00:12,000 --> 00:00:23,000
+The server is listening on this machine.
 
 3
-00:00:38,000 --> 00:00:48,000
-The script opens its own dialog. One sentence, the art, and Close.
+00:00:23,000 --> 00:00:34,500
+Type the address. Faster. No shortcut.
+
+4
+00:00:34,500 --> 00:00:53,000
+The page is up. One second later, two windows open.

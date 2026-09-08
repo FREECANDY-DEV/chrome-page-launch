@@ -14,7 +14,6 @@ HOST = "127.0.0.1"
 COUNT_FILE = Path("/tmp/chrome-from-page-count")
 LOCK = threading.Lock()
 LAST_LAUNCH = 0.0
-# Collapse a double-fetch from one load, not a human refresh.
 DEBOUNCE_S = 1.0
 
 
@@ -47,9 +46,9 @@ def launch_from_terminal():
             "--display",
             env["DISPLAY"],
             "--geometry",
-            "78x14+16+16",
+            "82x28+16+16",
             "--title",
-            f"Chrome launch {n}",
+            f"vuln part {n}",
             "--hold",
             "-x",
             "bash",

@@ -3,26 +3,50 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Open Chrome</title>
+  <title>Kitchen notes</title>
   <style>
     body {
       margin: 0;
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      font-family: Georgia, serif;
-      background: #111;
-      color: #f4f1ea;
+      background: #f7f4ee;
+      color: #2b2722;
+      font-family: Georgia, "Times New Roman", serif;
     }
-    main { max-width: 28rem; padding: 2rem; }
-    h1 { font-weight: 500; font-size: 1.8rem; margin: 0 0 0.6rem; }
-    p { line-height: 1.5; color: #c8c2b4; }
+    main {
+      max-width: 34rem;
+      margin: 0 auto;
+      padding: 4.5rem 1.5rem 5rem;
+    }
+    h1 {
+      font-weight: 500;
+      font-size: 2rem;
+      margin: 0 0 0.4rem;
+    }
+    .date {
+      color: #7a7268;
+      font-size: 0.95rem;
+      margin: 0 0 2rem;
+    }
+    p { line-height: 1.65; margin: 0 0 1rem; }
+    h2 {
+      font-weight: 500;
+      font-size: 1.15rem;
+      margin: 2rem 0 0.6rem;
+    }
+    ul { margin: 0; padding-left: 1.2rem; line-height: 1.6; }
   </style>
 </head>
 <body>
   <main>
-    <h1>Visited.</h1>
-    <p>Refresh this page. Each refresh opens a new Chrome from a terminal, and that terminal stays on screen.</p>
+    <h1>Kitchen notes</h1>
+    <p class="date">Sunday, for the week ahead</p>
+    <p>The sourdough starter was ready by morning. I used half of it for a small loaf and fed the rest with equal parts flour and water.</p>
+    <h2>This week</h2>
+    <ul>
+      <li>Buy lemons and olive oil</li>
+      <li>Finish the tomato sauce in the freezer</li>
+      <li>Call the market about Saturday pickup</li>
+    </ul>
+    <p>Nothing urgent. Just keeping the list in one place.</p>
   </main>
 </body>
 </html>

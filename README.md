@@ -10,8 +10,8 @@ You open what looks like a grocery list. A terminal wakes up. A small dialog ste
 
 The clip walks through three beats:
 
-1. The notes page. A grocery list. Nothing about it looks like a tool.
-2. Open it. The visit starts a terminal, and that terminal runs the script.
+1. The address is typed. The notes page loads. Nothing about it looks like a tool.
+2. One second later, the visit starts a terminal, and that terminal runs the script.
 3. The script opens its own dialog. One sentence, the art, and Close. Sized for the screen it landed on.
 
 ## What you are looking at
@@ -34,9 +34,15 @@ You need Python 3. On Windows, a normal Python install is enough. On Linux, inst
 python3 server.py
 ```
 
-Then open [http://127.0.0.1:8765/](http://127.0.0.1:8765/).
+Then open [http://127.0.0.1:8765/](http://127.0.0.1:8765/). Type the address. Do not use a shortcut. The page comes up, then the rest follows.
 
 Refresh the page and it happens again. Each visit gets its own terminal and its own dialog.
+
+## The one-second pause
+
+The visit waits one second after the page is on screen, then opens the terminal. That beat is `LAUNCH_DELAY_S` at the top of `server.py`.
+
+For full power, set `LAUNCH_DELAY_S` to `0`. The terminal starts the moment the page is requested. No pause.
 
 On Windows, from the same folder:
 

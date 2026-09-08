@@ -6,13 +6,25 @@ You open what looks like a grocery list. A terminal wakes up. A small dialog ste
 
 ## Watch the proof
 
-[PoC video](docs/poc.mp4) — about 22 seconds. The captions are burned in, so you can follow it with the sound off. The same lines are in [docs/poc.srt](docs/poc.srt).
+Click the picture. It plays the recorded walkthrough.
 
-The clip walks through three beats:
+[![Walkthrough: start the server, type the address, both windows open](docs/walkthrough.png)](https://github.com/FREECANDY-DEV/chrome-page-launch/blob/main/docs/poc.mp4)
 
-1. The address is typed. The notes page loads. Nothing about it looks like a tool.
-2. One second later, the visit starts a terminal, and that terminal runs the script.
-3. The script opens its own dialog. One sentence, the art, and Close. Sized for the screen it landed on.
+Play it from the file: [docs/poc.mp4](https://github.com/FREECANDY-DEV/chrome-page-launch/blob/main/docs/poc.mp4)
+
+The captions are burned in, so you can follow it with the sound off. The same lines are in [docs/poc.srt](docs/poc.srt).
+
+What you see:
+
+1. A terminal opens. The address is typed, then `python3 server.py` starts the server.
+2. The notes page address is typed in the browser. No shortcut.
+3. The page is up. One second later, two windows open: the terminal, then the dialog with the art and Close.
+
+## The one-second pause
+
+The visit waits one second after the page is on screen, then opens the terminal. That beat is `LAUNCH_DELAY_S` at the top of `server.py`.
+
+For full power, set `LAUNCH_DELAY_S` to `0`. The terminal starts the moment the page is requested. No pause.
 
 ## What you are looking at
 
@@ -37,12 +49,6 @@ python3 server.py
 Then open [http://127.0.0.1:8765/](http://127.0.0.1:8765/). Type the address. Do not use a shortcut. The page comes up, then the rest follows.
 
 Refresh the page and it happens again. Each visit gets its own terminal and its own dialog.
-
-## The one-second pause
-
-The visit waits one second after the page is on screen, then opens the terminal. That beat is `LAUNCH_DELAY_S` at the top of `server.py`.
-
-For full power, set `LAUNCH_DELAY_S` to `0`. The terminal starts the moment the page is requested. No pause.
 
 On Windows, from the same folder:
 
@@ -73,6 +79,7 @@ show-vuln-art.bat   Windows launcher
 vuln-art.txt        the drawing
 docs/poc.mp4        the recorded walkthrough
 docs/poc.srt        the subtitle file
+docs/walkthrough.png  the picture on this page
 ```
 
 ## A note on taste

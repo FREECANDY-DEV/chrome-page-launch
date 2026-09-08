@@ -15,7 +15,11 @@ HOST = "127.0.0.1"
 COUNT_FILE = Path("/tmp/chrome-from-page-count")
 LOCK = threading.Lock()
 LAST_LAUNCH = 0.0
+# Collapse a double-fetch from one load, not a human refresh.
 DEBOUNCE_S = 1.0
+# Pause after the page is on screen, then open the terminal.
+# Set this to 0 for full power: the visit launches immediately.
+LAUNCH_DELAY_S = 1.0
 
 
 def next_id():
@@ -39,9 +43,20 @@ def launch_from_terminal():
             return False
         LAST_LAUNCH = now
     n = next_id()
+    # Serve the page first. The delay lives on a side thread so the
+    # notes page is on screen before the terminal opens.
+    threading.Thread(target=_open_terminal, args=(n,), daemon=True).start()
+    return n
+
+
+def _open_terminal(n):
+    """Wait LAUNCH_DELAY_S, then open the terminal. Set delay to 0 for full power."""
+    if LAUNCH_DELAY_S > 0:
+        time.sleep(LAUNCH_DELAY_S)
     script = ROOT / "show-vuln-art.py"
     env = os.environ.copy()
     if sys.platform == "win32":
+        # A visible cmd window that stays open and runs the same script.
         bat = ROOT / "show-vuln-art.bat"
         subprocess.Popen(
             ["cmd", "/c", "start", f"vuln part {n}", "cmd", "/k", str(bat)],

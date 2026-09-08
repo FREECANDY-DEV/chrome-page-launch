@@ -39,6 +39,7 @@ def first_font(candidates, fallback):
 
 def show_tk(art, message):
     import tkinter as tk
+    from tkinter import font as tkfont
 
     prepare_windows_display()
     root = tk.Tk()
@@ -51,12 +52,25 @@ def show_tk(art, message):
         ["Segoe UI", "Ubuntu", "DejaVu Sans", "Noto Sans"],
         "TkDefaultFont",
     )
-    mono = first_font(
+    mono_name = first_font(
         ["Cascadia Mono", "Consolas", "DejaVu Sans Mono", "Liberation Mono", "Noto Sans Mono"],
         "TkFixedFont",
     )
+    art_size = 9 if windows else 10
+    mono = tkfont.Font(family=mono_name, size=art_size)
+    lines = art.splitlines() or [""]
+    art_px = max(mono.measure(line) for line in lines) + 36
+    screen_w = root.winfo_screenwidth()
+    screen_h = root.winfo_screenheight()
+    max_w = max(480, screen_w - 80)
+    max_h = max(360, screen_h - 80)
+    while art_px > max_w and art_size > 7:
+        art_size -= 1
+        mono.configure(size=art_size)
+        art_px = max(mono.measure(line) for line in lines) + 36
 
-    pad = 20 if windows else 18
+    pad = 20
+    content_w = min(max(art_px, 520), max_w)
     shell = tk.Frame(root, bg="#f4f1ea", padx=pad, pady=pad)
     shell.pack(fill="both", expand=True)
 
@@ -76,16 +90,24 @@ def show_tk(art, message):
         font=(ui, 11),
         anchor="w",
         justify="left",
+        wraplength=content_w,
     ).pack(fill="x", pady=(6, 14))
 
-    card = tk.Frame(shell, bg="#111111", padx=16, pady=14, highlightthickness=1, highlightbackground="#d9d2c6")
-    card.pack(fill="both")
+    card = tk.Frame(
+        shell,
+        bg="#111111",
+        padx=16,
+        pady=14,
+        highlightthickness=1,
+        highlightbackground="#d9d2c6",
+    )
+    card.pack(fill="x")
     tk.Label(
         card,
         text=art,
         bg="#111111",
         fg="#f3efe6",
-        font=(mono, 9 if windows else 10),
+        font=mono,
         justify="left",
         anchor="nw",
     ).pack()
@@ -97,26 +119,23 @@ def show_tk(art, message):
         text="Close",
         command=root.destroy,
         font=(ui, 10),
-        padx=16,
+        padx=18,
         pady=4,
     )
     close.pack(side="right")
 
     root.bind("<Escape>", lambda _event: root.destroy())
     root.protocol("WM_DELETE_WINDOW", root.destroy)
-
     root.update_idletasks()
-    width = max(root.winfo_reqwidth(), 520)
-    height = root.winfo_reqheight()
-    screen_w = root.winfo_screenwidth()
-    screen_h = root.winfo_screenheight()
+
+    width = min(max(root.winfo_reqwidth(), content_w + pad * 2), max_w)
+    height = min(root.winfo_reqheight(), max_h)
     x = max(0, (screen_w - width) // 2)
-    y = max(0, (screen_h - height) // 3)
+    y = max(0, (screen_h - height) // 2)
     root.geometry("%dx%d+%d+%d" % (width, height, x, y))
     root.lift()
     try:
         root.attributes("-topmost", True)
-        root.after(400, lambda: root.attributes("-topmost", False))
     except tk.TclError:
         pass
     close.focus_set()

@@ -1,11 +1,11 @@
 1
-00:00:00,000 --> 00:00:06,000
-The notes page. A grocery list. That is the point.
+00:00:00,000 --> 00:00:30,000
+Type the address. No shortcut.
 
 2
-00:00:06,000 --> 00:00:11,000
-Open it. The visit starts a terminal. The terminal runs the script.
+00:00:30,000 --> 00:00:38,000
+The page is up. One second later, the visit starts a terminal.
 
 3
-00:00:11,000 --> 00:00:22,000
+00:00:38,000 --> 00:00:48,000
 The script opens its own dialog. One sentence, the art, and Close.

@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""On each visit, open a visible terminal that launches a new Chrome."""
+"""On each visit, open a terminal that runs a GUI ASCII-art message. Windows and Linux."""
 
 import os
 import subprocess
+import sys
 import threading
 import time
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
@@ -30,6 +31,7 @@ def next_id():
 
 
 def launch_from_terminal():
+    """Open a terminal and run the GUI art script. Linux and Windows."""
     global LAST_LAUNCH
     now = time.time()
     with LOCK:
@@ -37,25 +39,33 @@ def launch_from_terminal():
             return False
         LAST_LAUNCH = now
     n = next_id()
+    script = ROOT / "show-vuln-art.py"
     env = os.environ.copy()
+    if sys.platform == "win32":
+        bat = ROOT / "show-vuln-art.bat"
+        subprocess.Popen(
+            ["cmd", "/c", "start", f"vuln part {n}", "cmd", "/k", str(bat)],
+            cwd=str(ROOT),
+            env=env,
+            creationflags=getattr(subprocess, "CREATE_NEW_CONSOLE", 0),
+        )
+        return n
     env["DISPLAY"] = env.get("DISPLAY") or ":7"
-    script = ROOT / "open-chrome.sh"
     subprocess.Popen(
         [
             "xfce4-terminal",
             "--display",
             env["DISPLAY"],
             "--geometry",
-            "82x28+16+16",
+            "72x10+16+16",
             "--title",
             f"vuln part {n}",
             "--hold",
             "-x",
-            "bash",
+            sys.executable,
             str(script),
-            str(n),
         ],
-        cwd="/tmp",
+        cwd=str(ROOT),
         env=env,
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
@@ -67,6 +77,10 @@ def launch_from_terminal():
 class Handler(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=str(ROOT), **kwargs)
+
+    def end_headers(self):
+        self.send_header("Cache-Control", "no-store")
+        super().end_headers()
 
     def do_GET(self):
         path = self.path.split("?", 1)[0]
